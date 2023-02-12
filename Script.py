@@ -187,7 +187,7 @@ Nᴀᴍᴇ - {}"""
 
 ♻️ 𝙅𝙊𝙄𝙉 :- https://t.me/MM_Archives 
 
-♻️ 𝙅𝙊𝙄𝙉 :-https://t.me/joinchat/Cl6Byc2RvPlkODA1
+♻️ 𝙅𝙊𝙄𝙉 :-https://t.me/MM_DVD_UPDATES
 
 𝑱𝑶𝑰𝑵🎗️𝑺𝑯𝑨𝐑𝐄🎗️𝐒𝐔𝐏𝐏𝐎𝐑𝐓🎗️</b>"""
 

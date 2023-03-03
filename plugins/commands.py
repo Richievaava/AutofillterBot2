@@ -15,6 +15,7 @@ import re
 import json
 import base64
 logger = logging.getLogger(__name__)
+from plugins.fsub import ForceSub
 
 BATCH_FILES = {}
 
@@ -73,10 +74,14 @@ async def start(client, message):
             ]
         ]
 
-        if message.command[1] != "subscribe":
+        if len(message.command) == 2 and message.command[1] in ["subscribe", "error", "okay", "help", "start", "hehe"]:
+        if message.command[1] == "subscribe":
+            await ForceSub(client, message)
+            return
             try:
-                kk, file_id = message.command[1].split("_", 1)
-                pre = 'checksubp' if kk == 'filep' else 'checksub' 
+                kk, file_id = message.command[1].split("_", 1) if "_" in message.command[1] else (False, False)
+                pre = ('checksubp' if kk == 'filep' else 'checksub') if kk else False
+
                 btn.append([InlineKeyboardButton("🔄 𝐓𝐫𝐲 𝐀𝐠𝐚𝐢𝐧 🔄", callback_data=f"{pre}#{file_id}")])
             except (IndexError, ValueError):
                 btn.append([InlineKeyboardButton("🔄 𝐓𝐫𝐲 𝐀𝐠𝐚𝐢𝐧 🔄", url=f"https://t.me/{temp.U_NAME}?start={message.command[1]}")])
@@ -87,7 +92,10 @@ async def start(client, message):
             parse_mode=enums.ParseMode.MARKDOWN
             )
         return
-    if len(message.command) == 2 and message.command[1] in ["subscribe", "error", "okay", "help"]:
+    if len(message.command) == 2 and message.command[1] in ["subscribe", "error", "okay", "help", "start", "hehe"]:
+        if message.command[1] == "subscribe":
+            await ForceSub(client, message)
+            return
         buttons = [[
                     InlineKeyboardButton('➕ 𝐀𝐃𝐃 𝐌𝐄 𝐓𝐎 𝐆𝐑𝐎𝐔𝐏 ➕', url=f'http://t.me/{temp.U_NAME}?startgroup=true')
                  ],[
@@ -108,6 +116,11 @@ async def start(client, message):
             parse_mode=enums.ParseMode.HTML
         )
         return
+    
+    status = await ForceSub(client, message, file_id=file_id, mode=pre)
+    if not status:
+        return
+    
     data = message.command[1]
     try:
         pre, file_id = data.split('_', 1)
